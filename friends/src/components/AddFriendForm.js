@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import api from '../utils/api'
+import { SetFriendsContext } from '../contexts/SetFriendsContext'
+import { FriendsContext } from '../contexts/FriendsContext'
 
 export default function AddFriendForm(props) {
 
+  const friends = useContext(FriendsContext)
+  const setFriends = useContext(SetFriendsContext)
+
   const [friend, setFriend] = useState({
-    id: props.friends.length + 1,
+    id: friends.length + 1,
     name: '',
     age: 0,
     email: '',
@@ -24,6 +29,8 @@ export default function AddFriendForm(props) {
       .post('/api/friends', friend)
       .then(res => {
         console.log(res)
+        setFriends(res.data)
+        props.history.push('/friends')
       })
       .catch(err => {
         console.log(err)

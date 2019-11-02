@@ -1,25 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import api from '../utils/api'
-
-import AddFriendForm from './AddFriendForm'
+import React, { useContext } from 'react'
+import { FriendsContext } from '../contexts/FriendsContext'
 
 export default function FriendsList(props) {
 
-  const [friends, setFriends] = useState([])
-
-  useEffect(() => {
-    api()
-      .get('/api/friends')
-      .then(res => {
-        console.log('/api/friends GET request:', res)
-        setFriends(res.data)
-      })
-      .catch(err => console.log(err))
-  }, [])
+  const friends = useContext(FriendsContext)
 
   return (
     <div>
-      <AddFriendForm friends={friends} />
       {friends.map((friend, index) => {
         return (
           <div key={index}>
