@@ -1,15 +1,19 @@
 import React, { useContext } from 'react'
+import { Link, Route } from 'react-router-dom'
 import { FriendsContext } from '../contexts/FriendsContext'
+import { getFriendId } from '../utils/getFriendId'
+import UpdateFriend from './UpdateFriend'
 
 export default function FriendsList(props) {
 
   const friends = useContext(FriendsContext)
+  getFriendId(friends, id)
 
   return (
     <div className="FriendsList">
       {friends.map((friend, index) => {
         return (
-          <div key={index} className="FriendCard">
+          <div key={index} className="FriendCard" onLoad={friendId}>
             <img 
               src="https://cdn2.iconfinder.com/data/icons/user-icon-2-1/100/user_5-15-512.png" 
               alt="friend"
@@ -19,6 +23,11 @@ export default function FriendsList(props) {
               <h3>{friend.name}</h3>
               <p>{friend.email}</p>
               <p>{friend.age} years old</p>
+              <Link to='/updatefriend'>Update</Link>
+
+              <Route exact path="/updatefriend" render={props => {
+                return <UpdateFriend {...props} friend={friend} />
+              }} />
             </div>
           </div>
         )
