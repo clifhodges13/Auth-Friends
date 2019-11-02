@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import api from '../utils/api'
 
 export default function Login(props) {
 
@@ -21,7 +21,8 @@ export default function Login(props) {
     e.preventDefault()
     console.log(data)
 
-    axios.post('http://localhost:5000/api/login', data)
+    api()
+      .post('/api/login', data)
       .then(res => {
         console.log(res.data)
         localStorage.setItem('token', res.data.payload)
