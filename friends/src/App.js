@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { NavLink, Route } from 'react-router-dom';
 import { FriendsContext } from './contexts/FriendsContext';
 import { SetFriendsContext } from './contexts/SetFriendsContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import api from './utils/api';
+import { getToken } from './utils/getToken';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import FriendsList from './components/FriendsList';
@@ -13,6 +14,7 @@ import './App.css';
 function App() {
 
   const [friends, setFriends] = useState([])
+  const signedIn = getToken()
 
   useEffect(() => {
     api()
@@ -27,11 +29,11 @@ function App() {
   return (
     
     <div className="App">
-      <nav>
-        <Link to="/">Login</Link>
-        <Link to="/friends">My Friends</Link>
-        <Link to="/addfriend">Add Friend</Link>
-        <Link to="/Logout">Logout</Link>
+      <nav className="Nav">
+        {!signedIn && <NavLink exact to="/" activeClassName="active">Login</NavLink>}
+        {signedIn && <NavLink exact to="/friends" activeClassName="active">My Friends</NavLink>}
+        {signedIn && <NavLink exact to="/addfriend" activeClassName="active">Add Friend</NavLink>}
+        {signedIn && <NavLink exact to="/Logout" activeClassName="active">Logout</NavLink>}
       </nav>
       
       <Route exact path="/" component={Login} />
